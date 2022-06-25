@@ -11,6 +11,8 @@ use App\Models\Schedule;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\returnSelf;
+
 class AcademicYearController extends Controller
 {
     /**
@@ -193,27 +195,32 @@ class AcademicYearController extends Controller
         ->join('subjects', 'academic_year_subjects.subject_id', '=', 'subjects.id')
         ->select('users.name as teacher_name', 'subjects.name as subject_name', 'day', 'start_at', 'end_at', 'subject_id', 'teacher_id', 'schedules.id as schedule_id')
         ->get();
-        $subjects = Subject::all();
+
+        $subjects = AcademicYearSubject::
+        join('subjects', 'subject_id', '=', 'subjects.id')
+        ->select('academic_year_subjects.id as academic_year_subjects_id', 'name')
+        // ->join('schedules', 'id', '=', 'schedules.academic_year_subject_id')
+        ->get();
 
         $teachers = RoleUser::join('roles', 'role_id', '=', 'roles.id')
         ->join('users', 'user_id', '=', 'users.id')
         ->get();
 
+        $class = Clas::findOrFail($id);
+
         return view('pages.academic-year.schedule', [
             'items' => $items,
             'subjects' => $subjects,
             'teachers' => $teachers,
+            'class' => $class,
         ]);
     }
 
     public function scheduleStore(Request $request)
     {
-
-        $academic_year_subject_id = AcademicYearSubject::where('academic_year_id', $request->academic_year_id)->where('subject_id', $request->subject)->first();
-
         Schedule::create([
             'class_id' => $request->class_id,
-            'academic_year_subject_id' => $academic_year_subject_id->id,
+            'academic_year_subject_id' => $request->subject,
             'teacher_id' => $request->teacher,
             'day' => $request->day,
             'start_at' => $request->start_at,

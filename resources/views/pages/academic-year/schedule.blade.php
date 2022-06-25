@@ -10,6 +10,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('academic-year.schedule.store') }}">
                         @csrf
+                        <input name="class_id" type="hidden" value="{{ $class->id }}">  
                         <div class="row mb-3">
                             <label for="day" class="col-md-4 col-form-label text-md-end">{{ __('Day') }}</label>
 
@@ -30,7 +31,7 @@
                             <div class="col-md-6">
                                 <select name="subject" class="form-control">
                                     @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->subject_id }}">{{ $subject->name }}</option>
+                                    <option value="{{ $subject->academic_year_subjects_id }}">{{ $subject->name }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -43,7 +44,7 @@
                             <div class="col-md-6">
                                 <select name="teacher" class="form-control">
                                     @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->teacher_id }}">{{ $teacher->name }}</option>
+                                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                         
                                     @endforeach
                                 </select>
