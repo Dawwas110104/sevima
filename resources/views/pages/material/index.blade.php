@@ -5,17 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Academic Year's Meeting</div>
+                <div class="card-header">{{ __('Material') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('academic-year.meeting.store') }}">
+                    <form method="POST" action="{{ route('material.store') }}">
                         @csrf
-                        <input name="schedule_id" type="hidden" value="{{ $schedule->id }}">
+                        <input name="meeting_id" type="hidden" value="{{ $id }}">
                         <div class="row mb-3">
-                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Meeting') }}</label>
+                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="number" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -26,10 +26,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="link" class="col-md-4 col-form-label text-md-end">{{ __('Link') }}</label>
+                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Link') }}</label>
 
                             <div class="col-md-6">
-                                <input id="link" type="text" class="form-control @error('link') @enderror" name="link" value="{{ old('link') }}" autofocus>
+                                <input id="link" type="text" class="form-control @error('link') is-invalid @enderror" name="link" value="{{ old('link') }}" required autocomplete="link" autofocus>
 
                                 @error('link')
                                     <span class="invalid-feedback" role="alert">
@@ -40,12 +40,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Description') }}</label>
+                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Type') }}</label>
 
                             <div class="col-md-6">
-                                <input id="desc" type="text" class="form-control @error('desc') is-invalid @enderror" name="desc" value="{{ old('desc') }}" required autocomplete="desc" autofocus>
+                                <input id="type" type="text" class="form-control @error('type') is-invalid @enderror" name="type" value="{{ old('type') }}" required autocomplete="type" autofocus>
 
-                                @error('desc')
+                                @error('type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -75,39 +75,26 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Description</th>
                                 <th scope="col">Link</th>
-                                <th scope="col">Code</th>
-                                <th>Action</th>
+                                <th scope="col">Type</th>
+                                <th scope="col"></th>
+                            <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($items as $item)
                             <tr>
-                                <th>{{ $item->name }}</th>
-                                <th>{{ $item->desc }}</th>
-                                <th>{{ $item->link }}</th>
-                                <th>{{ $item->presence_code }}</th>
+                                <th>{{ $item->material_name }}</th>
+                                <th>{{ $item->material_link }}</th>
+                                <th>{{ $item->type }}</th>
                                 <th>
-                                    <a href="{{ route('academic-year.meeting.edit', $item->meeting_id) }}">
+                                    <a href="{{ route('material.edit', $item->material_id) }}">
                                         <button type="button" class="btn btn-warning">Edit</button>
                                     </a>
-                                    <form method="POST" action="{{ route('academic-year.meeting.delete', $item->meeting_id) }}">
+                                    <form method="POST" action="{{ route('material.delete', $item->material_id) }}">
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
-                                    @if ($item->presence_code != null)
-                                        
-                                        
-                                    @else
-                                        <a href="{{ route('academic-year.meeting.code', $item->meeting_id) }}">
-                                            <button type="button" class="btn btn-primary">Generate Code</button>
-                                        </a>
-                                    @endif
-
-                                    <a href="{{ route('material.index', $item->meeting_id) }}">
-                                        <button type="button" class="btn btn-warning">Material</button>
-                                    </a>
                                 </th>
                             </tr>
                         @endforeach

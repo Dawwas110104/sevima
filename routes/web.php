@@ -50,11 +50,18 @@ Route::post('/academic-year/class/schedule/store/', [App\Http\Controllers\Academ
 Route::post('/academic-year/class/schedule/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'scheduleDestroy'])->name('academic-year.schedule.delete');
 
 Route::get('/academic-year/meeting/{id}', [App\Http\Controllers\AcademicYearController::class, 'meeting'])->name('academic-year.meeting');
+Route::post('/academic-year/meeting/store/', [App\Http\Controllers\AcademicYearController::class, 'meetingStore'])->name('academic-year.meeting.store');
 Route::get('/academic-year/meeting/edit/{id}', [App\Http\Controllers\AcademicYearController::class, 'meetingEdit'])->name('academic-year.meeting.edit');
 Route::post('/academic-year/meeting/update/{id}', [App\Http\Controllers\AcademicYearController::class, 'meetingUpdate'])->name('academic-year.meeting.update');
-Route::post('/academic-year/meeting/store/', [App\Http\Controllers\AcademicYearController::class, 'meetingStore'])->name('academic-year.meeting.store');
 Route::post('/academic-year/meeting/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'meetingDestroy'])->name('academic-year.meeting.delete');
 Route::get('/academic-year/meeting/code/{id}', [App\Http\Controllers\AcademicYearController::class, 'code'])->name('academic-year.meeting.code');
+
+
+Route::get('/material/{id}', [App\Http\Controllers\MaterialController::class, 'index'])->name('material.index');
+Route::post('/material/store/', [App\Http\Controllers\MaterialController::class, 'store'])->name('material.store');
+Route::get('/material/edit/{id}', [App\Http\Controllers\MaterialController::class, 'edit'])->name('material.edit');
+Route::post('/material/update/{id}', [App\Http\Controllers\MaterialController::class, 'update'])->name('material.update');
+Route::post('/material/delete/{id}', [App\Http\Controllers\MaterialController::class, 'destroy'])->name('material.delete');
 
 
 Route::get('/subject', [App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
@@ -63,3 +70,6 @@ Route::get('/subject/edit/{id}', [App\Http\Controllers\SubjectController::class,
 Route::post('/subject/update/{id}', [App\Http\Controllers\SubjectController::class, 'update'])->name('subject.update');
 Route::get('/subject/delete/{id}', [App\Http\Controllers\SubjectController::class, 'destroy'])->name('subject.delete');
 
+
+
+Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
