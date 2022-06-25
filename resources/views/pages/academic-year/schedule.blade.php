@@ -121,6 +121,9 @@
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
+                                    <a href="{{ route('academic-year.meeting', $item->schedule_id) }}">
+                                        <button type="button" class="btn tbn-primary">Meetings</button>
+                                    </a>
                                 </th>
                             </tr>
                         @endforeach

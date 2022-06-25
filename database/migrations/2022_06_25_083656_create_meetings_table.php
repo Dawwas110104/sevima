@@ -16,11 +16,11 @@ class CreateMeetingsTable extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
             $table->integer('schedule_id');
-            $table->string('name');
+            $table->integer('name');
             $table->string('desc');
-            $table->string('link');
-            $table->string('presence_code');
-            $table->date('presence_expired_at');
+            $table->string('link')->nullable();
+            $table->string('presence_code')->nullable();
+            $table->date('presence_expired_at')->nullable();
             $table->timestamps();
         });
     }

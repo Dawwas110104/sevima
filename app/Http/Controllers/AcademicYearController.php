@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\AcademicYear;
 use App\Models\AcademicYearSubject;
 use App\Models\Clas;
+use App\Models\Meeting;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Schedule;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Nette\Schema\Schema;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -199,7 +201,6 @@ class AcademicYearController extends Controller
         $subjects = AcademicYearSubject::
         join('subjects', 'subject_id', '=', 'subjects.id')
         ->select('academic_year_subjects.id as academic_year_subjects_id', 'name')
-        // ->join('schedules', 'id', '=', 'schedules.academic_year_subject_id')
         ->get();
 
         $teachers = RoleUser::join('roles', 'role_id', '=', 'roles.id')
@@ -233,6 +234,56 @@ class AcademicYearController extends Controller
     public function scheduleDestroy($id)
     {
         $item = Schedule::findOrFail($id);
+        $item->delete();
+
+        return redirect()->back();
+    }
+
+    public function meeting($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $items = Meeting::join('schedules', 'schedule_id', '=', 'schedules.id')
+        ->select('meetings.id as meeting_id', 'name', 'schedules.id as schedule_id', 'link', 'desc', 'presence_code')
+        ->get();
+
+        return view('pages.academic-year.meeting', [
+            'items' => $items,
+            'schedule' => $schedule,
+        ]);
+    }
+
+    public function meetingStore(Request $request) 
+    {
+        Meeting::create([
+            'schedule_id' => $request->schedule_id,
+            'name' => $request->name,
+            'desc' => $request->desc,
+        ]);
+
+        return redirect()->back();
+    }
+    
+    public function meetingEdit($id)
+    {
+        $item = Meeting::findOrFail($id);
+
+        return view('pages.academic-year.meetingEdit', [
+            'item' => $item,
+        ]);
+    }
+
+    public function meetingUpdate(Request $request, $id)
+    {
+        $data = $request->all();
+        $item = Meeting::findOrFail($id);
+        $item->update($data);
+
+        return redirect()->back();
+    }
+
+    public function meetingDestroy($id)
+    {
+        $item = Meeting::findOrFail($id);
         $item->delete();
 
         return redirect()->back();
