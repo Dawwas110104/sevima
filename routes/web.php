@@ -28,11 +28,12 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name
 Route::post('/user/store', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
 Route::get('/user/edit/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 Route::post('/user/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
-Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
+Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.delete');
 
-Route::get('/role-user', [App\Http\Controllers\RoleUserController::class, 'index'])->name('role-user.index');
-Route::post('/role-user/store', [App\Http\Controllers\RoleUserController::class, 'store'])->name('role-user.store');
-Route::get('/role-user/edit/{id}', [App\Http\Controllers\RoleUserController::class, 'edit'])->name('role-user.edit');
-Route::post('/role-user/update/{id}', [App\Http\Controllers\RoleUserController::class, 'update'])->name('role-user.update');
-Route::get('/role-user/delete/{id}', [App\Http\Controllers\RoleUserController::class, 'delete'])->name('role-user.delete');
+Route::get('/academic-year', [App\Http\Controllers\AcademicYearController::class, 'index'])->name('academic-year.index');
+Route::post('/academic-year/store', [App\Http\Controllers\AcademicYearController::class, 'store'])->name('academic-year.store');
+Route::get('/academic-year/edit/{id}', [App\Http\Controllers\AcademicYearController::class, 'edit'])->name('academic-year.edit');
+Route::post('/academic-year/update/{id}', [App\Http\Controllers\AcademicYearController::class, 'update'])->name('academic-year.update');
+Route::get('/academic-year/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'destroy'])->name('academic-year.delete');
+Route::post('/academic-year/publish/{id}', [App\Http\Controllers\AcademicYearController::class, 'publish'])->name('academic-year.publish');
 

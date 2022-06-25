@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoleUser;
+use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 
-class RoleUserController extends Controller
+class AcademicYearController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class RoleUserController extends Controller
      */
     public function index()
     {
-        $users = RoleUser::all();
-        return view('pages.roleUser.index', [
-            'users' =>$users,
+        $items = AcademicYear::all();
+        return view('pages.academic-year.index', [
+            'items' => $items,
         ]);
     }
 
@@ -38,7 +38,10 @@ class RoleUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        AcademicYear::create($data);
+
+        return redirect()->route('academic-year.index');
     }
 
     /**
@@ -60,7 +63,10 @@ class RoleUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = AcademicYear::where('id', $id)->first();
+        return view('pages.academic-year.edit', [
+            'item' => $item,
+        ]);
     }
 
     /**
@@ -72,7 +78,11 @@ class RoleUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        
+        $item = AcademicYear::findOrFail($id);
+        $item->update($data);
+        return redirect()->route('academic-year.index');
     }
 
     /**
@@ -83,9 +93,24 @@ class RoleUserController extends Controller
      */
     public function destroy($id)
     {
-        $item = RoleUser::findOrFail($id);
+        $item = AcademicYear::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('role-user.index');
+        return redirect()->route('academic-year.index');
+    }
+
+    public function publish ($id)
+    {
+        $item = AcademicYear::findOrFail($id);
+        
+        AcademicYear::where('status', 1)->update([
+            'status' => -1,
+        ]);
+
+        $item->update([
+            'status' => 1,
+        ]);
+
+        return redirect()->back();
     }
 }
