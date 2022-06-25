@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\AcademicYear;
 use App\Models\AcademicYearSubject;
 use App\Models\Clas;
+use App\Models\ClassUser;
 use App\Models\Meeting;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Schedule;
 use App\Models\Subject;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 Use Illuminate\Support\Str;
@@ -297,6 +299,45 @@ class AcademicYearController extends Controller
             'presence_code' => Str::random(8),
             'presence_expired_at' => Carbon::now()->addMinutes(7),
         ]);
+
+        return redirect()->back();
+    }
+
+    public function classUser($id)
+    {
+        $items = ClassUser::join('users', 'user_id', '=', 'users.id')
+        ->join('classes', 'class_id', '=', 'classes.id')
+        ->select('users.name as user_name', 'classes.name as class_name', 'class_users.id as class_id')    
+        ->get();
+
+        $users = User::all();
+        $class = Clas::findOrFail($id);
+
+        return view('pages.academic-year.classUser', [
+            'items' => $items,
+            'users' => $users,
+            'class' => $class,
+        ]);
+    }
+
+    public function classUpdate(Request $request)
+    {
+        $class = ClassUser::where('class_id', $request->class_id)->where('user_id', $request->user_id)->get();
+
+        if (count($class) < 1) {
+            ClassUser::create([
+                'class_id' => $request->class_id,
+                'user_id' => $request->user_id,
+            ]);
+        };
+        
+        return redirect()->back();
+    }
+
+    public function classUserDestroy($id)
+    {
+        $item = ClassUser::findOrFail($id);
+        $item->delete();
 
         return redirect()->back();
     }

@@ -2,29 +2,28 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Academic Year's Class</div>
+                <div class="card-header">User's Class</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('academic-year.class.store') }}">
+                    <form method="POST" action="{{ route('user.class.update', ['id' => $user->id]) }}">
                         @csrf
-                        <input name="academic_id" type="hidden" value="{{ $academic_id }}">
                         <div class="row mb-3">
-                            <label for="subject" class="col-md-4 col-form-label text-md-end">{{ __('Add Class') }}</label>
+                            <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Add Class') }}</label>
 
                             <div class="col-md-6">
-                                <input id="class" type="text" class="form-control @error('class') is-invalid @enderror" name="class" value="{{ old('class') }}" required autocomplete="class" autofocus>
-
-                                @error('class')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="role" class="form-control">
+                                    @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                        
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
+                        {{-- <input name="user_id" type="hidden" value="{{  $item->id  }}"> --}}
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -36,8 +35,6 @@
                 </div>
             </div>
         </div>
-        <br><br>
-
         <div class="col-8">
             <div class="card">
                 <div class="card-header">{{ __('Data') }}</div>
@@ -55,14 +52,8 @@
                             <tr>
                                 <th>{{ $item->name }}</th>
                                 <th>
-                                    <a href="{{ route('academic-year.class.schedule', $item->id) }}">
-                                        <button type="button" class="btn btn-primary">Schedule</button>
-                                    </a>
-                                    <a href="{{ route('academic-year.class.delete', $item->id) }}">
+                                    <a href="{{ route('user.class.delete', $item->id) }}">
                                         <button type="button" class="btn btn-danger">Delete</button>
-                                    </a>
-                                    <a href="{{ route('academic-year.class.user', $item->id) }}">
-                                        <button type="button" class="btn btn-danger">User</button>
                                     </a>
                                 </th>
                             </tr>
@@ -74,4 +65,6 @@
         </div>
     </div>
 </div>
+    
+
 @endsection

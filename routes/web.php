@@ -28,7 +28,8 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name
 Route::post('/user/store', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
 Route::get('/user/edit/{id}', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
 Route::post('/user/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
-Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.delete');
+Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.delete'); 
+
 
 
 Route::get('/academic-year', [App\Http\Controllers\AcademicYearController::class, 'index'])->name('academic-year.index');
@@ -44,6 +45,9 @@ Route::post('/academic-year/subject/store/', [App\Http\Controllers\AcademicYearC
 Route::get('/academic-year/{id}/class', [App\Http\Controllers\AcademicYearController::class, 'class'])->name('academic-year.class');
 Route::post('/academic-year/class/store/', [App\Http\Controllers\AcademicYearController::class, 'classStore'])->name('academic-year.class.store');
 Route::get('/academic-year/class/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'classDestroy'])->name('academic-year.class.delete');
+Route::get('/academic-year/class/user/{id}', [App\Http\Controllers\AcademicYearController::class, 'classUser'])->name('academic-year.class.user');
+Route::post('/academic-year/class/user/update/', [App\Http\Controllers\AcademicYearController::class, 'classUpdate'])->name('academic-year.class.user.update');
+Route::get('/academic-year/class/user/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'classUserDestroy'])->name('academic-year.class.user.delete');
 
 Route::get('/academic-year/class/schedule/{id}', [App\Http\Controllers\AcademicYearController::class, 'schedule'])->name('academic-year.class.schedule');
 Route::post('/academic-year/class/schedule/store/', [App\Http\Controllers\AcademicYearController::class, 'scheduleStore'])->name('academic-year.schedule.store');

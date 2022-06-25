@@ -1,11 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Clas;
+use App\Models\ClassUser;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\RoleUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -43,8 +46,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        User::create($data);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
         return redirect()->route('user.index');
     }
@@ -115,9 +121,35 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
         $item = User::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('user.index');
+    }
+
+    public function class($id)
+    {
+        $user = User::findOrFail($id);
+        $items = ClassUser::where('user_id', $id)->get();
+        $classes = Clas::all();
+
+        return view('pages.user.class',[
+            'user' => $user,
+            'items' => $items,
+            'classes' => $classes,
+        ]);
+    }
+
+    public function classUpdate(Request $request)
+    {
+        return $request;
+    }
+
+    public function classDestroy($id)
+    {
+        $item = ClassUser::findOrFail($id);
         $item->delete();
 
         return redirect()->route('user.index');

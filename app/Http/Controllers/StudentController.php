@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassUser;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -13,7 +15,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('pages.student.index');
+        $user = ClassUser::join('users', 'user_id', '=', 'users.id')->first();
+        $items = Schedule::where('class_id', $user->class_id)
+        ->join('academic_year_subjects', 'academic_year_subject_id', '=', 'academic_year_subjects.id')
+        ->join('subjects', 'subject_id', '=', 'subjects.id')
+        ->join('users', 'teacher_id', '=', 'users.id')
+        ->select('users.name as user_name', 'subjects.name as subject_name', 'start_at', 'end_at', 'day')
+        ->get();
+
+        return view('pages.student.index', [
+            'items' => $items,
+        ]);
     }
 
     /**
