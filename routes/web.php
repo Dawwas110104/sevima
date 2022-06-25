@@ -36,8 +36,14 @@ Route::get('/academic-year/edit/{id}', [App\Http\Controllers\AcademicYearControl
 Route::post('/academic-year/update/{id}', [App\Http\Controllers\AcademicYearController::class, 'update'])->name('academic-year.update');
 Route::get('/academic-year/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'destroy'])->name('academic-year.delete');
 Route::post('/academic-year/publish/{id}', [App\Http\Controllers\AcademicYearController::class, 'publish'])->name('academic-year.publish');
-Route::get('/academic-year/subject/{id}', [App\Http\Controllers\AcademicYearController::class, 'subject'])->name('academic-year.subject');
+Route::get('/academic-year/{id}/subject', [App\Http\Controllers\AcademicYearController::class, 'subject'])->name('academic-year.subject');
 Route::post('/academic-year/subject/store/', [App\Http\Controllers\AcademicYearController::class, 'subjectStore'])->name('academic-year.subject.store');
+Route::get('/academic-year/{id}/class', [App\Http\Controllers\AcademicYearController::class, 'class'])->name('academic-year.class');
+Route::post('/academic-year/class/store/', [App\Http\Controllers\AcademicYearController::class, 'classStore'])->name('academic-year.class.store');
+Route::get('/academic-year/class/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'classDestroy'])->name('academic-year.class.delete');
+
+
+
 
 Route::get('/subject', [App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');
 Route::post('/subject/store', [App\Http\Controllers\SubjectController::class, 'store'])->name('subject.store');

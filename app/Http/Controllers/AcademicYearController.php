@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use App\Models\AcademicYearSubject;
+use App\Models\Clas;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -147,4 +148,39 @@ class AcademicYearController extends Controller
 
         return redirect()->back();
     }
+
+    public function class($id)
+    {
+        $items = Clas::where('academic_year_id', $id)->get();
+        $academic_id = $id;
+
+        return view('pages.academic-year.class', [
+            'items' => $items,
+            'academic_id' => $academic_id,
+        ]);
+    }
+
+    public function classStore(Request $request)
+    {
+        // return $request;
+        $class = Clas::where('name', $request->class)->where('academic_year_id', $request->academic_id)->get();
+
+        if (count($class) < 1) {
+            Clas::create([
+                'academic_year_id' => $request->academic_id,
+                'name' => $request->class,
+            ]);
+        };
+
+        return redirect()->back();
+    }
+
+    public function classDestroy($id)
+    {
+        $item = Clas::findOrFail($id);
+        $item->delete();
+
+        return redirect()->back();
+    }
 }
+
