@@ -1,9 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
+use App\Models\RoleUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,8 +17,11 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $roles = Role::all();
+
         return view('pages.user.index', [
-            'users' =>$users,
+            'users' => $users,
+            'roles' => $roles,
         ]);
     }
 
@@ -40,6 +45,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         User::create($data);
+
         return redirect()->route('user.index');
     }
 
@@ -63,9 +69,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $item = User::findOrFail($id);
-        // return $item;
+        $roles = Role::all();
+
         return view('pages.user.edit')->with([
             'item' => $item,
+            'roles' => $roles,
         ]);
     }
 
@@ -79,8 +87,24 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        
         $item = User::findOrFail($id);
+
+        $roleId = $request->role;
+        $user = Auth::user();
+        $roleUser = RoleUser::where('user_id', $user->id)->first();
+
+        if (is_null($roleUser)) {
+            RoleUser::create([
+                'role_id' => $roleId,
+                'user_id' => $user->id,
+            ]);
+        } else {
+            RoleUser::where('id',$roleUser->id)->update([
+                'role_id' => $roleId,
+            ]);
+        };
+        
+
         $item->update($data);
         return redirect()->route('user.index');
     }
