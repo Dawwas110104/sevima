@@ -20,7 +20,7 @@ class CreateMeetingsTable extends Migration
             $table->string('desc');
             $table->string('link')->nullable();
             $table->string('presence_code')->nullable();
-            $table->date('presence_expired_at')->nullable();
+            $table->dateTime('presence_expired_at')->nullable();
             $table->timestamps();
         });
     }

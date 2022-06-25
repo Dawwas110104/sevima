@@ -54,6 +54,7 @@ Route::get('/academic-year/meeting/edit/{id}', [App\Http\Controllers\AcademicYea
 Route::post('/academic-year/meeting/update/{id}', [App\Http\Controllers\AcademicYearController::class, 'meetingUpdate'])->name('academic-year.meeting.update');
 Route::post('/academic-year/meeting/store/', [App\Http\Controllers\AcademicYearController::class, 'meetingStore'])->name('academic-year.meeting.store');
 Route::post('/academic-year/meeting/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'meetingDestroy'])->name('academic-year.meeting.delete');
+Route::get('/academic-year/meeting/code/{id}', [App\Http\Controllers\AcademicYearController::class, 'code'])->name('academic-year.meeting.code');
 
 
 Route::get('/subject', [App\Http\Controllers\SubjectController::class, 'index'])->name('subject.index');

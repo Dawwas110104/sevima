@@ -87,7 +87,7 @@
                                 <th>{{ $item->name }}</th>
                                 <th>{{ $item->desc }}</th>
                                 <th>{{ $item->link }}</th>
-                                <th>{{ $item->code }}</th>
+                                <th>{{ $item->presence_code }}</th>
                                 <th>
                                     <a href="{{ route('academic-year.meeting.edit', $item->meeting_id) }}">
                                         <button type="button" class="btn btn-warning">Edit</button>
@@ -96,6 +96,14 @@
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
+                                    @if ($item->presence_code != null)
+                                        
+                                        
+                                    @else
+                                        <a href="{{ route('academic-year.meeting.code', $item->meeting_id) }}">
+                                            <button type="button" class="btn btn-primary">Generate Code</button>
+                                        </a>
+                                    @endif
                                 </th>
                             </tr>
                         @endforeach

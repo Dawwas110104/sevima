@@ -10,7 +10,9 @@ use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Schedule;
 use App\Models\Subject;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+Use Illuminate\Support\Str;
 use Nette\Schema\Schema;
 
 use function PHPUnit\Framework\returnSelf;
@@ -285,6 +287,16 @@ class AcademicYearController extends Controller
     {
         $item = Meeting::findOrFail($id);
         $item->delete();
+
+        return redirect()->back();
+    }
+
+    public function code($id)
+    {
+        Meeting::findOrFail($id)->update([
+            'presence_code' => Str::random(8),
+            'presence_expired_at' => Carbon::now()->addMinutes(7),
+        ]);
 
         return redirect()->back();
     }
