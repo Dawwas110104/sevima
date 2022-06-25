@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\AcademicYear;
 use App\Models\AcademicYearSubject;
 use App\Models\Clas;
+use App\Models\Role;
+use App\Models\RoleUser;
+use App\Models\Schedule;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -178,6 +181,51 @@ class AcademicYearController extends Controller
     public function classDestroy($id)
     {
         $item = Clas::findOrFail($id);
+        $item->delete();
+
+        return redirect()->back();
+    }
+
+    public function schedule($id)
+    {
+        $items = Schedule::join('users', 'teacher_id', '=', 'users.id')
+        ->join('academic_year_subjects', 'academic_year_subject_id', '=', 'academic_year_subjects.id')
+        ->join('subjects', 'academic_year_subjects.subject_id', '=', 'subjects.id')
+        ->select('users.name as teacher_name', 'subjects.name as subject_name', 'day', 'start_at', 'end_at', 'subject_id', 'teacher_id', 'schedules.id as schedule_id')
+        ->get();
+        $subjects = Subject::all();
+
+        $teachers = RoleUser::join('roles', 'role_id', '=', 'roles.id')
+        ->join('users', 'user_id', '=', 'users.id')
+        ->get();
+
+        return view('pages.academic-year.schedule', [
+            'items' => $items,
+            'subjects' => $subjects,
+            'teachers' => $teachers,
+        ]);
+    }
+
+    public function scheduleStore(Request $request)
+    {
+
+        $academic_year_subject_id = AcademicYearSubject::where('academic_year_id', $request->academic_year_id)->where('subject_id', $request->subject)->first();
+
+        Schedule::create([
+            'class_id' => $request->class_id,
+            'academic_year_subject_id' => $academic_year_subject_id->id,
+            'teacher_id' => $request->teacher,
+            'day' => $request->day,
+            'start_at' => $request->start_at,
+            'end_at' => $request->end_at,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function scheduleDestroy($id)
+    {
+        $item = Schedule::findOrFail($id);
         $item->delete();
 
         return redirect()->back();

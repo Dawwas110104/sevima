@@ -90,7 +90,7 @@ class UserController extends Controller
         $item = User::findOrFail($id);
 
         $roleId = $request->role;
-        $user = Auth::user();
+        $user = User::where('id', $id)->first();
         $roleUser = RoleUser::where('user_id', $user->id)->first();
 
         if (is_null($roleUser)) {

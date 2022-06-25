@@ -55,8 +55,11 @@
                             <tr>
                                 <th>{{ $item->name }}</th>
                                 <th>
+                                    <a href="{{ route('academic-year.class.schedule', $item->id) }}">
+                                        <button type="button" class="btn btn-primary">Schedule</button>
+                                    </a>
                                     <a href="{{ route('academic-year.class.delete', $item->id) }}">
-                                        <button type="button" class="btn btn-danger">delete</button>
+                                        <button type="button" class="btn btn-danger">Delete</button>
                                     </a>
                                 </th>
                             </tr>

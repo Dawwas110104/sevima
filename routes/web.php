@@ -41,6 +41,11 @@ Route::post('/academic-year/subject/store/', [App\Http\Controllers\AcademicYearC
 Route::get('/academic-year/{id}/class', [App\Http\Controllers\AcademicYearController::class, 'class'])->name('academic-year.class');
 Route::post('/academic-year/class/store/', [App\Http\Controllers\AcademicYearController::class, 'classStore'])->name('academic-year.class.store');
 Route::get('/academic-year/class/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'classDestroy'])->name('academic-year.class.delete');
+Route::get('/academic-year/class/schedule/{id}', [App\Http\Controllers\AcademicYearController::class, 'schedule'])->name('academic-year.class.schedule');
+Route::post('/academic-year/class/schedule/store/', [App\Http\Controllers\AcademicYearController::class, 'scheduleStore'])->name('academic-year.schedule.store');
+Route::post('/academic-year/class/schedule/delete/{id}', [App\Http\Controllers\AcademicYearController::class, 'scheduleDestroy'])->name('academic-year.schedule.delete');
+
+
 
 
 

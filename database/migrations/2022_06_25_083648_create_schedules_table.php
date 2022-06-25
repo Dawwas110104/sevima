@@ -19,8 +19,8 @@ class CreateSchedulesTable extends Migration
             $table->integer('academic_year_subject_id');
             $table->integer('teacher_id');
             $table->string('day');
-            $table->date('start_at');
-            $table->date('end_at');
+            $table->string('start_at');
+            $table->string('end_at');
             $table->timestamps();
         });
     }
