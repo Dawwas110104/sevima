@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
+use App\Models\AcademicYearSubject;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
@@ -15,8 +17,11 @@ class AcademicYearController extends Controller
     public function index()
     {
         $items = AcademicYear::all();
+        $subjects = Subject::all();
+
         return view('pages.academic-year.index', [
             'items' => $items,
+            'subjects' => $subjects,
         ]);
     }
 
@@ -110,6 +115,35 @@ class AcademicYearController extends Controller
         $item->update([
             'status' => 1,
         ]);
+
+        return redirect()->back();
+    }
+
+    public function subject($id)
+    {
+        $items = AcademicYearSubject::join('subjects', 'subject_id', '=', 'subjects.id')
+        ->where('academic_year_id', $id)->get();
+
+        $subjects = Subject::all();
+        $academic_id = $id;
+
+        return view('pages.academic-year.subject', [
+            'items' => $items,
+            'subjects' => $subjects,
+            'academic_id' => $academic_id,
+        ]);
+    }
+
+    public function subjectStore(Request $request)
+    {
+        $subject = AcademicYearSubject::where('subject_id', $request->subject)->get();
+
+        if (count($subject) < 1) {
+            AcademicYearSubject::create([
+                'academic_year_id' => $request->academic_id,
+                'subject_id' => $request->subject,
+            ]);
+        };
 
         return redirect()->back();
     }

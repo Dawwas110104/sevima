@@ -95,7 +95,9 @@
                                             <button type="submit" class="btn btn-primary">Publish</button>
                                         </form>
                                     @endif
-                                    
+                                    <a href="{{ route('academic-year.subject', $item->id) }}">
+                                        <button type="button" class="btn btn-success">Subject</button>
+                                    </a>
                                 </th>
                             </tr>
                         @endforeach
