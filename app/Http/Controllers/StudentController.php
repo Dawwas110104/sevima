@@ -28,6 +28,22 @@ class StudentController extends Controller
         ]);
     }
 
+    public function teacher()
+    {
+        $user = ClassUser::join('users', 'user_id', '=', 'users.id')->first();
+        $items = Schedule::where('class_id', $user->class_id)
+        ->join('academic_year_subjects', 'academic_year_subject_id', '=', 'academic_year_subjects.id')
+        ->join('subjects', 'subject_id', '=', 'subjects.id')
+        ->join('users', 'teacher_id', '=', 'users.id')
+        ->join('classes', 'class_id', '=', 'classes.id')
+        ->select('users.name as user_name', 'subjects.name as subject_name', 'start_at', 'end_at', 'day', 'class_id', 'classes.name as class_name')
+        ->get();
+
+        return view('pages.student.teacher', [
+            'items' => $items,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

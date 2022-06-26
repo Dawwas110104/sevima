@@ -17,7 +17,7 @@
                                     <tr>
                                         <th>Day</th>
                                         <th>Subject</th>
-                                        <th>Teacher</th>
+                                        <th>Class</th>
                                         <th>Start At</th>
                                         <th>End At</th>
                                         <th>Meeting</th>
@@ -28,7 +28,7 @@
                                     <tr>
                                         <th>{{ $item->day }}</th>
                                         <th>{{ $item->subject_name }}</th>
-                                        <th>{{ $item->user_name }}</th>
+                                        <th>{{ $item->class_name  }}</th>
                                         <th>{{ $item->start_at }}</th>
                                         <th>{{ $item->end_at }}</th>
                                         <th>

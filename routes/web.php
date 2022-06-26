@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -77,3 +77,6 @@ Route::get('/subject/delete/{id}', [App\Http\Controllers\SubjectController::clas
 
 
 Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+
+Route::get('/teacher', [App\Http\Controllers\StudentController::class, 'teacher'])->name('teacher.index');
+
